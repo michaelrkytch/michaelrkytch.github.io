@@ -3,5 +3,6 @@ markdown:       kramdown
 kramdown:
         input:        GFM
         syntax_highlighter:     coderay
+        enable_coderay: true
 
   
