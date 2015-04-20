@@ -1,3 +1,6 @@
+_drafts/
+_site/
+.DS_Store
 pom.xml
 pom.xml.asc
 *jar

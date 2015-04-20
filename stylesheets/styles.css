@@ -19,8 +19,8 @@ body {
 }
 
 .wrapper {
-  width: 640px;
-  margin: 0 auto;
+  width: auto;
+  margin: 0 50px;
   background: #DEDEDE;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
@@ -192,6 +192,11 @@ section {
   position: relative;
 }
 
+.post {
+  padding: 15px 20px;
+  font-size: 16px;
+}
+
 h1, h2, h3, h4, h5, h6 {
   color: #222;
   padding: 0;
@@ -220,7 +225,7 @@ h3, h4, h5, h6 {
 }
 
 blockquote {
-  margin: 0 -20px 20px;
+  margin: 0 20px 20px;
   padding: 15px 20px 1px 40px;
   font-style: italic;
   background: #ccc;
@@ -240,10 +245,10 @@ code, pre {
 }
 
 pre {
+  margin: 0 20px 20px;
   padding: 20px;
   background: #3A3C42;
   color: #f8f8f2;
-  margin: 0 -20px 20px;
 }
 pre code {
   color: #f8f8f2;
@@ -307,7 +312,7 @@ footer p + p {
     padding: 0;
   }
 
-  .wrapper {
+  .wrapper{
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     -ms-border-radius: 0;
