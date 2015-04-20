@@ -1,8 +1,8 @@
 ---
 layout: post
+title: Implementing a persistent fixed-sized buffer
 ---
 
-## Persistent fixed-length buffer
 Recently, I had need of a fixed-size buffer with a first-in-first-out eviction policy for use in a context of single-reader, multi-writer concurrency.  Since I only really needed to cache a set of objects, I did not need and associative data structure.  The right abstraction seemed to be a persistent, fixed-length stack -- push new element on the tail, and automatically evict elements from the head when the structure reaches its maximum capacity.
 
 Exploring different implementation options turned out to be a good way to learn more about the internals of persistent data structures, and the specific characteristics of those offered in the Clojure core language, particularly the persistent vector.
