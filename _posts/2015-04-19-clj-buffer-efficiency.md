@@ -4,11 +4,13 @@ title: Implementing a persistent fixed-sized buffer
 categories: [Programming, Clojure]
 ---
 
-Recently, I had need of a fixed-size buffer with a first-in-first-out eviction policy for use in a context of single-reader, multi-writer concurrency.  Since I only really needed to cache a set of objects, I did not need and associative data structure.  The right abstraction seemed to be a persistent, fixed-length stack -- push new element on the tail, and automatically evict elements from the head when the structure reaches its maximum capacity.
+Recently, I had need of a fixed-size buffer with a first-in-first-out eviction policy for use in a context of single-reader, multi-writer concurrency.  Since I only really needed to cache a set of objects, I did not need an associative data structure.  The right abstraction seemed to be a persistent, fixed-length stack -- push new elements on the tail, and automatically evict elements from the head when the structure reaches its maximum capacity.
 
 Exploring different implementation options turned out to be a good way to learn more about the internals of persistent data structures, and the specific characteristics of those offered in the Clojure core language, particularly the persistent vector.
 
-I considered a ring buffer design, a naive vector-based design, an implementation on top of clojure.lang.PerisistentQueue and an implementation on top of clojure.core.rrb-vector.  If you just want to know the answer, skip to the rrb-vector section.
+I have recently read the excellent series of blog posts by [@hyPiRion](https://twitter.com/hyPiRion) on the implementation of [persistent data structures](http://hypirion.com/musings/understanding-persistent-vector-pt-1).  Also, [The Joy of Clojure](http://www.manning.com/fogus2) has a good, concise review of persistent data structures, and covers the limitations of persistent vectors.
+
+For my data structure, I considered a ring buffer design, a naive vector-based design, an implementation on top of clojure.lang.PerisistentQueue and an implementation on top of clojure.core.rrb-vector.  If you just want to read the conclusion, skip to the rrb-vector section.
 
 ### Ring buffer implementation
 
@@ -27,8 +29,8 @@ The main problems with this design are
 ```clojure
   (cons [this x]
     (if (= len (count buf))
-      (RingBuffer. (rem (inc start) len) len (assoc buf start x) meta)
-      (RingBuffer. start (inc len) (assoc buf (rem (+ start len) (count buf)) x) meta)))
+      (RingBuffer. (rem (inc start) len) len (assoc buf start x))
+      (RingBuffer. start (inc len) (assoc buf (rem (+ start len) (count buf)) x))))
 ```
 
 The `cons` operation results in a head copy and a path copy for the underlying persistent vector, as well as the copy of the `RingBuffer` object.  Cons is unable to take advantage of tail optimization (except when the tail of the ring buffer happens to be at the tail of the underlying vector).
@@ -41,7 +43,7 @@ The `peek` and `pop` operations require a lookup to a random offset in the vecto
   (pop [this]
     (if (zero? len)
       (throw (IllegalStateException. "Can't pop empty queue"))
-      (RingBuffer. (rem (inc start) (count buf)) (dec len) (assoc buf start nil) meta)))
+      (RingBuffer. (rem (inc start) (count buf)) (dec len) (assoc buf start nil))))
 ```
 
 Of course, given the large branching factor (32) of Clojure persistent vectors, the path copies are not deep, but each results in a copy of at least one 32-slot node.
@@ -78,12 +80,26 @@ The version using `rest` will be O(N log N), the cost of building a new persiste
 
 It turns out that Clojure does contain a persistent queue implementation, although it is not that easy to find, since there is no special reader syntax or even a core function for creating one.  The persistent fixed-length buffer using a persistent queue implements an efficient tail `cons` and an efficient head `pop`.  This is a good choice if you only need to read the head element (queue semantics), or if, as in my application, you plan to iterate over the whole buffer.
 
-Internally, `clojure.lang.PersistentQueue` is implemented as a front list and a rear vector.  If you needed to be able to efficiently read the tail element, you could do so by extending `PersistentQueue` to expose the rear vector's `pop` method.
+Similar to the naive vector implementation, we can use standard `peek` and `pop` at the head of the queue, and a special `conj-fixed-pq` function to enforce the eviction policy when adding tot the tail.  All of these are effectively constant-time operations.
 
+```clojure
+(defn conj-fixed-pq
+  [capacity ^PersistentQueue buf x & xs]
+    (if xs
+      (recur capacity (conj-fixed-pq capacity buf x) (first xs) (next xs))
+      (let [b (if (= capacity (count buf))
+                (pop buf)
+                ;; else, there's still room in buf for more 
+                buf
+                )]
+        (conj b x))))
+```
+
+Internally, `clojure.lang.PersistentQueue` is implemented as a front list and a rear vector.  If you needed to be able to efficiently read the tail element, you could do so by extending `PersistentQueue` to expose the rear vector's `pop` method.
 
 ### clojure.core.rrb-vector
 
-Finally, the best option for combining stack semantics with efficient head removal and tail appending is to use [clojure.core.rbb-vector](https://github.com/clojure/core.rrb-vector).  As stated in the documentation, the rbb-vector adds an O(log N) slicing (subvec) operation to `PersistentVector`.
+Finally, the best option for combining stack semantics with efficient head removal and tail appending is to use [clojure.core.rbb-vector](https://github.com/clojure/core.rrb-vector).  As stated in the documentation, the `rrb-vector` adds an O(log N) slicing (`subvec`) operation to `PersistentVector`.
 
 
 ```clojure
@@ -99,8 +115,4 @@ Finally, the best option for combining stack semantics with efficient head remov
         (conj b x))))
 ```
 
-## References
 
-See this excellent series of blog posts by [@hypirion](https://twitter.com/hyPiRion) on the implementation of [persistent data structures](http://hypirion.com/musings/understanding-persistent-vector-pt-1).
-
-[The Joy of Clojure](http://www.manning.com/fogus2) has good, concise review of persistent data structures, and covers the limitations of persistent vectors.
