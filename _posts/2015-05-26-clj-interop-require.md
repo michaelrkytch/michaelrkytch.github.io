@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Implementing a Java library in Clojure: Entry point pitfalls
+title: Implementing a Java library in Clojure -- Entry point pitfalls
 categories: [Programming, Clojure, Interop]
 ---
 
