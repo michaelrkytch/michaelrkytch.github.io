@@ -4,7 +4,7 @@ title: Implementing a Java library in Clojure -- Entry point pitfalls
 categories: [Programming, Clojure, Interop]
 ---
 
-One of the arguments for using Clojure on the server side is its deep interoperability with Java.  Using Java libraries from a Clojure program generally works seamlessly, although there are pitfalls due to the "impedance mismatch" between OO and functional languages.  But what if you want to write a library in Clojure for use in a Java server?  There are some useful, though confusing, features for fitting your code into existing interface and class hierarchies.  See Chas Emerick's excellent [flowchart](http://cemerick.com/2011/07/05/flowchart-for-choosing-the-right-clojure-type-definition-form/) for choosing the right Clojure type definition form.
+One of the arguments for using Clojure on the server side is its deep interoperability with Java.  Using Java libraries from a Clojure program generally works seamlessly, although there are pitfalls due to the "impedance mismatch" between OO and functional languages.  But what if you want to write a library in Clojure for use in a Java server?  There are some useful, though confusing, features for fitting your code into existing interface and class hierarchies.  See Chas Emerick's indispensable [flowchart](http://cemerick.com/2011/07/05/flowchart-for-choosing-the-right-clojure-type-definition-form/) for choosing the right Clojure type definition form.
 
 In particular, `defrecord` and `deftype` give you very convenient ways to define classes with Clojure implementations.  Unfortunately, using these classes from a Java program can be a bit awkward.  A Java programmer expects a library to expose classes that can either be directly instantiated or which are provided by factory methods in the API.
 
@@ -19,7 +19,7 @@ public interface ICalculator {
 }
 ```
 
-And suppose your implementation needs some configuration before it is used.  In our contrived example, our `Calculator` takes a base `operand` as a constructor argument.  The `mult` method then multiplies its argument by the base `operand`.
+And suppose your implementation needs some configuration before it is used.  In our contrived example, our `Calculator` takes a base `operand` as a constructor argument.  The `mult` function then multiplies its argument by the base `operand`.
 
 An intuitive way to create an entry point for your Clojure library would be to use `defrecord` to define a class implementing that interface.
 
@@ -81,7 +81,7 @@ Exception in thread "main" java.lang.IllegalStateException: Attempting to call u
 	at interop.example.TestMain.main(TestMain.java:8)
 ```
 
-What went wrong?  It turns out that the generated `Calculator` class does not automatically import and compile the Clojure code that it depends on.  In this case, we are calling a Clojure method `mult` from `Calculator.multiply()`, and this code is not loaded in the runtime.  It sure would be nice if this were taken care of automatically by the Clojure AOT compiler, but no such luck.
+What went wrong?  It turns out that the generated `Calculator` class does not automatically import and compile the Clojure code that it depends on.  In this case, we are calling a Clojure function `mult` from `Calculator.multiply()`, and this code is not loaded in the runtime.  It sure would be nice if this were taken care of automatically by the Clojure AOT compiler, but no such luck.
 
 So to load the required Clojure code, we need to invoke some magic incantations before attempting to use our new class.  Here we use the [clojure.java.api](http://clojure.github.io/clojure/javadoc/clojure/java/api/package-summary.html) package to `require` our `interop-blog.core` namespace.
 
