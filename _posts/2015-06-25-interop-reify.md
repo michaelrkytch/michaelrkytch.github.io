@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Implementing a Java library in Clojure -- Entry point pitfalls
+title: Implementing a Java library in Clojure -- Constructing parameterized objects with reify
 categories: [Programming, Clojure, Interop]
 ---
-In my [previous post](), I looked at the problem of how to implement a Java API in Clojure when the API requires construction of parameterized objects.  In that post, I used a Clojure record to implement the API interface and wrote a static factory method in Java to encapsulate the magic incantations required to instantiate the object and load the code it depends on.  In this post, I will show a simpler pattern using `reify` instead of `defrecord` to implement an interface.
+In my [previous post]({% post_url 2015-05-26-clj-interop-require.md %}), I looked at the problem of how to implement a Java API in Clojure when the API requires construction of parameterized objects.  In that post, I used a Clojure record to implement the API interface and wrote a static factory method in Java to encapsulate the magic incantations required to instantiate the object and load the code it depends on.  In this post, I will show a simpler pattern using `reify` instead of `defrecord` to implement an interface.
 
 ## Reifying an interface
 
