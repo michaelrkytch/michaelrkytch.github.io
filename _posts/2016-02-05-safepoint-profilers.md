@@ -12,7 +12,7 @@ It turns out that the latest versions of Oracle’s JVM have the ability to do n
 -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints
 ```
 
-The difference in fidelity is hard to demonstrate, but as an example, check out these two traces of the same thread executing similar workloads.  The first was taken using normal safepoint profiling.  The second was taken with the non-safepoint profiling flag.
+The difference in fidelity is hard to demonstrate, but as an example, check out these two traces of the same thread executing similar workloads.  The first was taken using normal safepoint profiling.  The second was taken with the non-safepoint profiling flag.  Notice that we get a lot more samples, and a more detailed picture of where in the code we are spending our time.  In particular, not how in the safepoint profile, we only get three samples of the process of serializing, compressing and streaming taking place in the `Write Aside Cache Persister` thread, during 4 seconds of execution.  In the non-safepoint profile, this is broken down into much more detail with 24 samples in 4 seconds, showing how the time is attributed to different phases of the process.  If we were interested in optimizing, we might use this information to dig into what's happening during `java.io.ObjectOutputStream$HandleTable.lookup()`, which is not visible in the safepoint profile.
 
 ![Safepoint Profile](/images/safepoint-profile.png)
 
