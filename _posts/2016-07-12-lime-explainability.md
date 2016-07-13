@@ -1,10 +1,13 @@
+---
+layout: post
+title:          Explaining Predictions with LIME
 latex input:    mmd-article-header  
-Title:          Explaining Predictions with LIME
 latex input:    mmd-article-begin-doc  
 latex footer:   mmd-memoir-footer  
 xhtml header:   <script type="text/javascript" async
   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
+---
 
 ["Why Should I Trust You?": Explaining the Predictions of Any Classifier](http://arxiv.org/abs/1602.04938) Ribeiro et. al, CoRR Mar 2016.
 
@@ -22,11 +25,11 @@ These explanations are intended to supplement traditional evaluation metrics suc
 
 Explanations as used here are textual or visual artifacts illustrating how an instance's attributes relate to the model's prediction.
 
-![Explanation flow diagram](explanations-1.png)
+![Explanation flow diagram](/images/explanations-1.png)
 
 In addition to providing confidence in individual predictions or in the model as a whole, these example-based explanations can help practitioners in model selection and feature engineering.  This essentially helps humans apply their domain knowledge to these tasks.  In the following example, while algorithm #2 had a higher measured accuracy, algorithm #1 is clearly basing it's prediction on more relevant features.
 
-![Model selection](explanations-2.png)
+![Model selection](/images/explanations-2.png)
 
 ## LIME -- Local, Interpretable, Model-agnostic Explanations
 
@@ -50,7 +53,7 @@ LIME frames the search for an interpretable explanation as an optimization probl
 
 For a given example in the original input space \\( x \in R^d \\), we want to learn a locally faithful linear model in a relatively small feature space.  The intuition is shown in the following diagram.
 
-![](explanations-3.png)
+![](/images/explanations-3.png)
 
 The bold red cross represents the instance being explained.  The pink blob in the background represents the complex model \\( f \\).  The dashed line is the learned linear model \\( g \\) which will be used as an explanation.  This function is locally faithful to \\( f \\) but globally does not behave at all similarly.
 
@@ -70,7 +73,7 @@ This process learns a linear function that closely matches the global function i
 
 The paper gives an intriguing example of explaining the top 3 classes predicted by Google's Inception neural network on an arbitrary image.  For each of the top predicted classes, an explanation is produced by learning a linear model for each super-pixel in the image. (A super-pixel is a region of the image produced by a standard image segmentation algorithm).  Then the super-pixels having the highest positive weight towards the predicted class are shown, with the negative super-pixels greyed out.  This essentially allows the human observer to visualize some of the most pertinent regions of a very complex decision boundary.
 
-![Image recognition explanations](explanations-4.png)
+![Image recognition explanations](/images/explanations-4.png)
 
 ## Explaining models
 
