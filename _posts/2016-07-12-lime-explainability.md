@@ -1,6 +1,7 @@
 ---
 layout: post
-title:          Explaining Predictions with LIME
+title: Explaining Predictions with LIME
+categories: [Papers, Machine Learning]
 latex input:    mmd-article-header  
 latex input:    mmd-article-begin-doc  
 latex footer:   mmd-memoir-footer  
