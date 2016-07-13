@@ -2,13 +2,14 @@
 layout: post
 title: Explaining Predictions with LIME
 categories: [Papers, Machine Learning]
+---
 latex input:    mmd-article-header  
 latex input:    mmd-article-begin-doc  
 latex footer:   mmd-memoir-footer  
 xhtml header:   <script type="text/javascript" async
   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
----
+
 
 ["Why Should I Trust You?": Explaining the Predictions of Any Classifier](http://arxiv.org/abs/1602.04938) Ribeiro et. al, CoRR Mar 2016.
 
