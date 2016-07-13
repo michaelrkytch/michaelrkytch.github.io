@@ -3,10 +3,7 @@ layout: post
 title: Explaining Predictions with LIME
 categories: [Papers, Machine Learning]
 ---
-latex input:    mmd-article-header  
-latex input:    mmd-article-begin-doc  
-latex footer:   mmd-memoir-footer  
-xhtml header:   <script type="text/javascript" async
+<script type="text/javascript" async
   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
 
@@ -43,7 +40,7 @@ The goal is to provide explanations that are
 
 The LIME method creates an explanation for an individual prediction by building a simple interpretable model that reflects the behavior of the complex global model in the local vicinity of the example.
 
-An *interpretable representation* is a point in a space whose dimensions can be interpreted by a human.  Practically speaking, this paper uses small binary vectors of simple features.  For instance, a text classifier might use a large space of word embeddings and ngrams as its input representation, while the explanation would use the presence or absence of a handful of particular words as an interpretable representation.  The paper specifically focuses on finding sparse linear models as explanations, but notes that the same technique could be used to generate decision trees or falling rule lists as interpretable models.  All of these are assumed to be over a domain \\( \{0,1\}^{d'} \\) of interpretable components -- i.e. a reasonably small number of human interpretable features.
+An *interpretable representation* is a point in a space whose dimensions can be interpreted by a human.  Practically speaking, this paper uses small binary vectors of simple features.  For instance, a text classifier might use a large space of word embeddings and ngrams as its input representation, while the explanation would use the presence or absence of a handful of particular words as an interpretable representation.  The paper specifically focuses on finding sparse linear models as explanations, but notes that the same technique could be used to generate decision trees or falling rule lists as interpretable models.  All of these are assumed to be over a domain \\( \\{0,1\\}^{d'} \\) of interpretable components -- i.e. a reasonably small number of human interpretable features.
 
 LIME frames the search for an interpretable explanation as an optimization problem.  Given a set \\({G}\\) of potentially interpretable models, we need a measure \\( \mathcal{L}(f,g,x) \\) of how poorly the interpretable model \\( g \in G \\) approximates the original model \\(f\\) for point \\(x\\) -- this is the loss function.  We also need some measure \\( \Omega(g) \\) of the complexity of the model (e.g. the depth of a decision tree).  We then pick a model which minimizes both of these
 
@@ -63,7 +60,7 @@ The general approach is to search for the optimal explanatory model \\( g(x) \\)
 
 The paper focuses on a couple concrete implementations of this approach.  For text classification, the interpretable representation is a bag of words of maximum size \\( K \\).  For image recognition, the interpretable representation is a binary vector of "super-pixels" of maximum size \\( K \\).  The K features are selected first, using a regression technique, and then the weights of the linear model \\( g \\) are selected using a least-squares regression, weighted by the distance between the sample \\( z \\) and the original point \\( x \\). 
 
-* Starting from a point \\(x\\) in the original input space map it to a corresponding point \\(x' \in {0,1}^{d'} \\) in the interpretable space.
+* Starting from a point \\(x\\) in the original input space map it to a corresponding point \\(x' \in \\{0,1\\}^{d'} \\) in the interpretable space.
 * Then take random samples \\( z' \\) around \\( x' \\)
 * Map each sample \\(z'\\) back to a point \\(z\\) in the original space and get the prediction \\( f(z) \\) using the original global model.
 * Calculate the distance \\( \Pi_x(z) \\) between the sample point and the original point
