@@ -80,7 +80,7 @@ The paper goes on to describe a technique for selecting a set of examples that w
 
 ## Validation
 
-The paper goes on to justify the effectiveness and utility of the LIME method via simulation and human testing.  The results show that, using such explanations, non-expert users are able to pick the a classifier that generalizes better, even when the best classifier has worse accuracy when measured against the a test set.  They are also able to effectively able to tune a model through feature selection when guided by such explanations, by removing features that they deem unimportant.
+The paper goes on to justify the effectiveness and utility of the LIME method via simulation and human testing.  The results show that, using such explanations, non-expert users are able to pick the classifier that generalizes better, even when the best classifier has worse accuracy when measured against the a test set.  They are also able to effectively able to tune a model through feature selection when guided by such explanations, by removing features that they deem unimportant.
 
 ## Conclusion
 
