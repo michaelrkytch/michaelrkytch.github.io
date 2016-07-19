@@ -1,0 +1,12 @@
+---
+layout: post
+title: Opinions on government support for AI
+categories: [Opinion]
+---
+The US Office of Science and Technology Policy is currently [soliciting opinions](https://www.whitehouse.gov/webform/rfi-preparing-future-artificial-intelligence) on how to direct funding and research to prepare for the future of artificial intelligence.  The following is my brief response.  Some of these ideas were inspired by Paul Mason's book [Postcapitalism: A Guide to Our Future](https://amzn.com/0374536732).
+
+AI methods are rapidly being adopted across all major industries.  The growth of AI and other advanced software technologies is largely enabled through the free exchange of information and code.  A robust, fast internet infrastructure, free of mass surveillance, censorship and commercial control is a fundamental requirement.  In addition, funding for basic research in math and science as well as for long-term projects can help balance the short-term, market-driven technology development that dominates industry.
+
+Like other new revolutionary technologies, such as nanotech, gene editing, etc, the technology is developing faster than our social and ethical frameworks.  These technologies are maturing quickly and will radically change our lives in unforeseen ways.  Government has a responsibility to fund serious cross-disciplinary, international efforts to understand the social, ethical, economic and ecological ramifications of these technologies.
+
+Finally, AI will continue to reduce the value of traditional labor, as more and more tasks are automated.  As has been the trend since the start of the information age, value will reside more and more in knowledge than in labor.  There is significant risk that AI, robotics and other advanced automation will continue to deepen the disparities between the well-educated and moneyed few and the rest of the population.  On the other hand, there could be significant opportunity for more and more people to participate meaningfully in the knowledge economy.  While AI is a deeply technical area, the application and management of AI will become less technical over time.  So in order to prepare our nation to benefit from AI, we need to fund robust, well rounded education for all our citizens.  A population with a deep and diverse educational base, provided with fair access to technology, will be best positioned to take advantage of the coming technologies in a tremendous variety of novel and valuable ways.
